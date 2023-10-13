@@ -26,7 +26,7 @@ jobs:
       - name: build program jar
         continue-on-error: true
         run: |
-          ./gradlew desktop:dist
+          sh ./gradlew desktop:dist
 
       - name: Upload JAR
         continue-on-error: true
