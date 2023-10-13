@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 import java.util.HashSet;
@@ -17,10 +18,19 @@ public class WindowManager extends Table {
         setFillParent(true);
     }
 
+    public void openWindow(Window window) {
+        windows.add(window);
+        add(window).expand().fill();
+    }
+
     public void openBuffer() {
-        BufferWindow buffer = new BufferWindow();
-        windows.add(buffer);
-        add(buffer).expand().fill();
+        BufferWindow buffer = new BufferWindow(false);
+        openWindow(buffer);
+    }
+
+    public void openScratchBuffer() {
+        BufferWindow buffer = new BufferWindow(true);
+        openWindow(buffer);
     }
 
     public void openBuffer(FileHandle handle) {

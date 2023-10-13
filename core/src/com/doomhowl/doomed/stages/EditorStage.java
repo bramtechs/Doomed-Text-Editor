@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.doomhowl.doomed.gfx.StageBackground;
 import com.doomhowl.doomed.gfx.TextureGenerator;
 import com.doomhowl.doomed.windows.BufferWindow;
 import com.doomhowl.doomed.windows.WindowManager;
@@ -15,10 +16,13 @@ import java.util.Objects;
 public class EditorStage extends Stage implements Screen {
     private ShapeDrawer shapes;
     private Texture pixelTexture;
-    private WindowManager wm;
+    private final StageBackground bg;
+    private final WindowManager wm;
 
     public EditorStage(){
         super(new ScreenViewport());
+        wm = new WindowManager();
+        bg = new StageBackground();
     }
 
     @Override
@@ -27,8 +31,10 @@ public class EditorStage extends Stage implements Screen {
         pixelTexture = TextureGenerator.getWhitePixel();
         shapes = new ShapeDrawer(getBatch(), new TextureRegion(pixelTexture));
 
-        wm = new WindowManager();
-        // show scratchpad
+        addActor(bg);
+
+        // show default layout
+        wm.openScratchBuffer();
         wm.openBuffer();
         addActor(wm);
     }
