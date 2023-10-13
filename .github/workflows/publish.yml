@@ -24,11 +24,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2.4.2
 
-      - name: build UncivServer.jar
+      - name: build program jar
         continue-on-error: true
         run: |
           ./gradlew desktop:dist
-          ./gradlew desktop:zipLinuxFilesForJar
 
       - name: Upload JAR
         continue-on-error: true
