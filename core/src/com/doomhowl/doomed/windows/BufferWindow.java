@@ -9,8 +9,6 @@ public class BufferWindow extends Window {
 
     public BufferWindow() {
         super("Empty Buffer", SkinManager.getSkin());
-        setFillParent(true);
-
         buffer = new TextBuffer();
         add(buffer).expand().fill();
     }

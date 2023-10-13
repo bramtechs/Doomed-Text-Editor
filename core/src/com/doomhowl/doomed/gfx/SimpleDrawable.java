@@ -1,8 +1,13 @@
 package com.doomhowl.doomed.gfx;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public abstract class SimpleDrawable implements Drawable {
+    protected final ShapeDrawer shapes;
+    public SimpleDrawable(ShapeDrawer shapes) {
+        this.shapes = shapes;
+    }
 
     @Override
     public float getLeftWidth() {
