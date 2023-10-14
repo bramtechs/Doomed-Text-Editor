@@ -16,6 +16,9 @@ public class ShapeDrawerRetriever {
 
     public ShapeDrawer getShapes() {
         if (cachedShapeDrawer == null) {
+            if (owner.getStage() == null) {
+                throw new IllegalStateException("Actor is not attached to a stage");
+            }
             if (!(owner.getStage() instanceof EditorStage)) {
                 throw new IllegalStateException("Actor was not added to EditorStage!");
             }
