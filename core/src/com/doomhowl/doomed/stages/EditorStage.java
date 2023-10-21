@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.doomhowl.doomed.assets.Assets;
 import com.doomhowl.doomed.gfx.StageBackground;
 import com.doomhowl.doomed.gfx.TextureGenerator;
-import com.doomhowl.doomed.windows.BufferWindow;
 import com.doomhowl.doomed.windows.WindowManager;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -15,7 +15,6 @@ import java.util.Objects;
 
 public class EditorStage extends Stage implements Screen {
     private ShapeDrawer shapes;
-    private Texture pixelTexture;
     private final StageBackground bg;
     private final WindowManager wm;
 
@@ -27,15 +26,14 @@ public class EditorStage extends Stage implements Screen {
 
     @Override
     public void show() {
-        // initialize shape drawer
-        pixelTexture = TextureGenerator.getWhitePixel();
-        shapes = new ShapeDrawer(getBatch(), new TextureRegion(pixelTexture));
-
         addActor(bg);
+
+        // initialize shape drawer
+        Texture pixelTexture = Assets.disposable(TextureGenerator.getWhitePixel());
+        shapes = new ShapeDrawer(getBatch(), new TextureRegion(pixelTexture));
 
         // show default layout
         wm.openScratchBuffer();
-        wm.openBuffer();
         addActor(wm);
     }
 
@@ -67,7 +65,6 @@ public class EditorStage extends Stage implements Screen {
 
     @Override
     public void dispose() {
-        pixelTexture.dispose();
         super.dispose();
     }
 

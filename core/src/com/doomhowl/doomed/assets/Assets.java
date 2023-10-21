@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Disposable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.Set;
 public class Assets extends AssetManager {
     private static Assets instance;
     private static final Set<Asset<?>> assets = new HashSet<>();
+    private static final Set<Disposable> disposables = new HashSet<>();
 
     // === Declare all the assets below ===
     public static Asset<Skin> default_skin = Asset.of("skins/default/skin/uiskin.json", Skin.class);
@@ -56,6 +58,11 @@ public class Assets extends AssetManager {
         assets.add(a);
     }
 
+    public static <T extends Disposable> T disposable(T disposable) {
+        disposables.add(disposable);
+        return disposable;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -64,5 +71,13 @@ public class Assets extends AssetManager {
             builder.append("--> ").append(name).append("\n");
         }
         return builder.toString();
+    }
+
+    @Override
+    public void dispose() {
+        for (Disposable d: disposables) {
+            d.dispose();
+        }
+        super.dispose();
     }
 }

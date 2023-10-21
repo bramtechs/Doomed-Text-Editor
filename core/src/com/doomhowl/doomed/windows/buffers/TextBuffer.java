@@ -36,10 +36,6 @@ public class TextBuffer extends TextArea implements BufferInterface {
 
     private FileHandle check(String path) {
         FileHandle handle = Gdx.files.absolute(path);
-        if (!handle.exists()) {
-            Alerts.errorNotFound(path);
-            return null;
-        }
         if (handle.isDirectory()) {
             win.openBuffer();
             return null;

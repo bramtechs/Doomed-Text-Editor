@@ -1,8 +1,8 @@
 package com.doomhowl.doomed.windows;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.doomhowl.doomed.assets.Assets;
 import com.doomhowl.doomed.gfx.styling.WidgetStyler;
@@ -19,6 +19,7 @@ public class BufferWindow extends Window implements InitMethod {
     private final Queue<BufferInterface> queue;
     private String title = "(empty)";
 
+    // TODO: deprecate parameter
     public BufferWindow(boolean scratch) {
         super("(empty)", Assets.getSkin());
         ActorInitializer.init(this);
@@ -36,19 +37,23 @@ public class BufferWindow extends Window implements InitMethod {
     @Override
     public void act(float delta) {
         while (!queue.isEmpty()) {
-            queue.remove().init();
+            var item = queue.remove();
+            if (item instanceof Actor a && a.getStage() != null) {
+                item.init();
+            }
         }
         getTitleLabel().setText(title);
         super.act(delta);
     }
 
-    private <T extends BufferInterface> T openBuffer(T buffer) {
+    public <T extends BufferInterface> T openBuffer(T buffer) {
         queue.add(buffer);
-        if (buffer instanceof Widget wid) {
+        if (buffer instanceof Actor wid) {
+            clear();
             ScrollPane pane = new ScrollPane(wid, Assets.getSkin());
             add(pane).expand().fill();
         } else {
-            throw new IllegalStateException("BufferInterface should be implemented on only Widgets!");
+            throw new IllegalStateException("BufferInterface should be implemented on only Actors!");
         }
         buffer.preInit(this);
         return buffer;
